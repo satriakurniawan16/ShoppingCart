@@ -10,7 +10,6 @@ fun ProductItem.toDomain(): Product {
         description = description.orEmpty(),
         category = category.orEmpty(),
         discountPercentage = discountPercentage ?: 0.0,
-        rating = rating ?: 0.0,
         stock = stock ?: 0,
         tags = tags ?: emptyList(),
         brand = brand.orEmpty(),

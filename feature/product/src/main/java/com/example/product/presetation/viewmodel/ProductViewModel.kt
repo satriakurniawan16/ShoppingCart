@@ -9,6 +9,7 @@ import com.example.product.ui.model.ProductUiModel
 import com.example.product.ui.model.SortType
 import com.example.ui.molecule.CheckoutDialogState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -42,7 +43,7 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun getProducts() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = ProductUiState.Loading
 
             try {
@@ -50,10 +51,8 @@ class ProductViewModel @Inject constructor(
                     .getProducts()
                     .map { it.toUiModel() }
 
-                // 👇 simpan data asli
                 originalProducts = data
 
-                // 👇 langsung apply sort (default)
                 applySort()
 
             } catch (e: Exception) {
@@ -100,34 +99,6 @@ class ProductViewModel @Inject constructor(
             else it
         }
         applySort()
-    }
-
-    fun onIncrease(id: Int) {
-        _uiState.update { current ->
-            if (current is ProductUiState.Success) {
-                current.copy(
-                    products = current.products.map {
-                        if (it.id == id && it.quantity < it.stock)
-                            it.copy(quantity = it.quantity + 1)
-                        else it
-                    }
-                )
-            } else current
-        }
-    }
-
-    fun onDecrease(id: Int) {
-        _uiState.update { current ->
-            if (current is ProductUiState.Success) {
-                current.copy(
-                    products = current.products.map {
-                        if (it.id == id && it.quantity > 0)
-                            it.copy(quantity = it.quantity - 1)
-                        else it
-                    }
-                )
-            } else current
-        }
     }
 
     fun onReset() {

@@ -48,7 +48,7 @@ fun SortBySection(
 
                 AppIcon(
                     imageVector = Icons.Default.Sort,
-                    tint = Color.White,
+                    tint = Color.DarkGray,
                     modifier = Modifier.size(38.dp)
                 )
 

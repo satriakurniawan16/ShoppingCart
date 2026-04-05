@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.product.presetation.state.ProductUiState
 import com.example.product.presetation.viewmodel.ProductViewModel
@@ -30,7 +28,6 @@ fun ProductScreen(
     viewModel: ProductViewModel
 ) {
 
-    val dialogState by viewModel.dialogState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -79,16 +76,6 @@ fun ProductScreen(
                 }
 
                 is ProductUiState.Success -> {
-                    val products = state.products
-
-                    val totalPrice = products.sumOf {
-                        it.price * it.quantity
-                    }
-
-                    val isCheckoutEnabled = totalPrice > 0
-                    val showReset = totalPrice > 0
-
-
                     ProductList(
                         products = state.products,
                         sortType = sortType,
