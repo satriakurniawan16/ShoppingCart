@@ -17,9 +17,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
 }
 
 rootProject.name = "ShoppingApp"
 include(":app")
 include(":core:ui")
 include(":feature:product")
+include(":core:network")
